@@ -10,6 +10,10 @@ function Home({ store }) {
       <p>
         Choose from options above.
       </p>
+
+      <p>
+        Contract address <strong>{store.contractAddress}</strong>, version {store.contractVersion}
+      </p>
     </div>
   );
 }

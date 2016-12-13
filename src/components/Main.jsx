@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Button } from 'react-bootstrap';
-
 import Home from './Home';
 import Search from './Search';
+import Updater from './Updater';
 import { Alert, Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
 
 
@@ -18,12 +18,14 @@ function Main({ store }) {
           <Col md={12}>
               <Tabs activeKey={store.tab} onSelect={chooseTab} id="controlled-tab-example">
                 <Tab eventKey="home" title="Home">
-                  <Home />
+                  <Home store={store} />
                 </Tab>
                 <Tab eventKey="search" title="Search companies">
                   <Search store={store} />
                 </Tab>
-                <Tab eventKey="update" title="Update company information">Tab 3 content</Tab>
+                <Tab eventKey="update" title="Update company information">
+                  <Updater store={store} />
+                </Tab>
               </Tabs>
            </Col>
         </Row>
