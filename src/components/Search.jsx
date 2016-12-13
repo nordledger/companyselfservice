@@ -10,7 +10,13 @@ function Results({ store }) {
     return (<p>Example companies include: IBAN:FI6213763000140986, OVT:3726597538, FI24303727, FI26597538, {store.resultVatId}</p>);
   } else {
     var text = JSON.stringify(store.results, null, 2);
-    return (<pre>{text}</pre>);
+    var vatId = store.resultVatId;
+    return (
+      <div>
+        <h2>Results for {vatId}</h2>
+        <pre>{text}</pre>
+      </div>
+    );
   }
 }
 
@@ -23,10 +29,12 @@ function Search({ store }) {
 
   function searchByVat(e) {
     store.queryByVatId(state.vatId);
+    window.location.hash = "#results";
   }
 
   function searchByInvoiceAddress(e) {
     store.queryByInvoiceAddress(state.invoiceAddress);
+    window.location.hash = "#results";
   }
 
   function onChange(event) {
@@ -40,7 +48,7 @@ function Search({ store }) {
 
   return (
     <div>
-      <h1>Search and browser existing electric invoice address data</h1>
+      <h1>Search electronic invoice address registry</h1>
 
       <form>
         <div className="form-group">
@@ -67,6 +75,8 @@ function Search({ store }) {
       </form>
 
       <hr />
+
+      <a name="results" />
 
       <Results store={store} />
     </div>

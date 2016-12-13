@@ -29,7 +29,7 @@ class Connection {
     var data = {};
     var contract = this.contract;
 
-    var coreData = contract.getBusinessInformation(vatId);
+    var coreData = contract.getBusinessInformation(vatId, 4);
 
     data.vatId = vatId;
 
