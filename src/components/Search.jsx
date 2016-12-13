@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 function Search({ store }) {
   return (
     <div>
-      <h1>Electronic invoice registration demo</h1>
+      <h1>Search and browser existing electric invoice address data</h1>
 
       <p>
         Choose from options above.

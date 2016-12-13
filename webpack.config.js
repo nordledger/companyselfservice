@@ -24,6 +24,9 @@ const common = {
     extensions: ['', '.js', '.jsx'],
   },
   module: {
+    preLoaders: [
+        { test: /\.json$/, loader: 'json'},
+    ],
     loaders: [
       {
         test: /\.(jpg|png)$/,

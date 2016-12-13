@@ -10,6 +10,10 @@ class App extends React.Component {
     this.store = props.store;
   }
 
+  componentDidMount() {
+    this.store.createConnection();
+  }
+
   render() {
     return (
       <Main store={this.store} />
