@@ -5,7 +5,7 @@ import contracts from "./contracts";
 /**
  * Smart contract connection.
  */
-class Connection {
+class ContractWrapper {
 
   constructor(url, address) {
     this.url = url;
@@ -68,6 +68,15 @@ class Connection {
     var vatId = this.contract.getVatIdByAddress(invoicingAddress);
     return this.queryCompanyResultsSync(vatId);
   }
+
+  queryCompanyPrefencesSync(vatId) {
+    var data = this.contract.getCompanyPreferences(vatId);
+    if(!data) {
+      return {};
+    } else {
+      JSON.parse(data);
+    }
+  }
 }
 
-export default Connection;
+export default ContractWrapper;

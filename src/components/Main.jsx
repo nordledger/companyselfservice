@@ -4,8 +4,8 @@ import { Button } from 'react-bootstrap';
 import Home from './Home';
 import Search from './Search';
 import Updater from './Updater';
-import { Alert, Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
-
+import { Header, Navbar, Alert, Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
+import logo from '../../images/nordledger-logo.png';
 
 function Main({ store }) {
 
@@ -16,14 +16,25 @@ function Main({ store }) {
       <Grid>
         <Row>
           <Col md={12}>
+
+              <header>
+                <Navbar>
+                  <Navbar.Header>
+                    <Navbar.Brand>
+                      <a href="#"><img className="logo" src={logo} /></a>
+                    </Navbar.Brand>
+                  </Navbar.Header>
+                </Navbar>
+              </header>
+
               <Tabs activeKey={store.tab} onSelect={chooseTab} id="controlled-tab-example">
                 <Tab eventKey="home" title="Home">
                   <Home store={store} />
                 </Tab>
-                <Tab eventKey="search" title="Search companies">
+                <Tab eventKey="search" title="Companies registry">
                   <Search store={store} />
                 </Tab>
-                <Tab eventKey="update" title="Update company information">
+                <Tab eventKey="update" title="Update your company">
                   <Updater store={store} />
                 </Tab>
               </Tabs>

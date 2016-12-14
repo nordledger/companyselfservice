@@ -48,7 +48,8 @@ function Search({ store }) {
 
   return (
     <div>
-      <h1>Search electronic invoice address registry</h1>
+      <h1>Companies registry</h1>
+      <p className="lead">Search electronic invoice address registry</p>
 
       <form>
         <div className="form-group">

@@ -1,5 +1,8 @@
 import { observable, computed, action, extendObservable } from 'mobx';
-import Connection from './Connection';
+import ContractWrapper from './ContractWrapper';
+
+
+
 
 class Store {
 
@@ -13,10 +16,17 @@ class Store {
   @observable numClicks = 0;
 
   @observable tab = "home";
+  @observable loggedIn = false;
+
+  loggedInVatId = null;
 
   /** Search results */
   @observable resultVatId = null;
   results = {};
+
+  /* Show company when it is being updated */
+  @observable editCompanyVatId = null;
+  editCompanyDetails = {};
 
   @computed get oddOrEven() {
     return this.numClicks % 2 === 0 ? 'even' : 'odd';
@@ -27,7 +37,7 @@ class Store {
   }
 
   @computed get contract() {
-    return this.connection.contract;
+    return this.contractWrapper.contract;
   }
 
   @action clickButton() {
@@ -48,18 +58,41 @@ class Store {
   }
 
   createConnection() {
-    this.connection = new Connection(this.rpcURL, this.contractAddress);
-    this.connection.init(this.setConnected.bind(this));
+    this.contractWrapper = new ContractWrapper(this.rpcURL, this.contractAddress);
+    this.contractWrapper.init(this.setConnected.bind(this));
   }
 
   @action queryByVatId(vatId) {
-    this.results = this.connection.queryCompanyResultsSync(vatId);
+    this.results = this.contractWrapper.queryCompanyResultsSync(vatId);
     this.resultVatId = this.results.vatId; // Hack to refresh results as plain JS objects
   }
 
   @action queryByInvoiceAddress(invoiceAddress) {
-    this.results = this.connection.queryInvoiceAddressResultsSync(invoiceAddress);
+    this.results = this.contractWrapper.queryInvoiceAddressResultsSync(invoiceAddress);
     this.resultVatId = this.results.vatId; // Hack to refresh results as plain JS objects
+  }
+
+  @action login(vatId) {
+    if(vatId) {
+      this.loggedIn = true;
+      this.loggedInVatId = vatId;
+    }
+  }
+
+  @action logout() {
+    this.loggedIn = false;
+  }
+
+  @action loadCompanyDetails(vatId) {
+
+    let companyDetails = this.contractWrapper.queryCompanyResultsSync(vatId);
+    this.editCompanyDetails = companyDetails;
+
+    let preferences = this.contractWrapper.queryCompanyPrefencesSync(vatId);
+    this.editCompanyDetails.preferences = preferences;
+
+    this.editCompanyVatId = vatId;
+    console.log(vatId);
   }
 }
 

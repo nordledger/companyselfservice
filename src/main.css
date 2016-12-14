@@ -1,3 +1,20 @@
-body {
-  background: lightgrey;
+.navbar {
+  min-height: 70px;
+}
+
+.logo {
+  max-width: 60px;
+}
+
+.panel-default {
+  max-width: 600px;
+  margin: 60px auto;
+}
+
+.panel-default > .panel-heading {
+  background: white;
+}
+
+.btn-toolbar {
+  margin: 20px 0;
 }

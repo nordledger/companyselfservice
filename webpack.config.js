@@ -13,6 +13,7 @@ const PATHS = {
   src: path.join(__dirname, 'src'),
   dist: path.join(__dirname, 'dist'),
   style: path.join(__dirname, 'src/main.css'),
+  images: path.join(__dirname, 'images'),
 };
 
 const common = {
@@ -31,7 +32,7 @@ const common = {
       {
         test: /\.(jpg|png)$/,
         loader: 'file?name=[path][name].[hash].[ext]',
-        // include: PATHS.images,
+        include: PATHS.images,
       },
       {
         'test': /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?/,
