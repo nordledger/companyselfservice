@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonToolbar, FormControl } from 'react-bootstrap';
 import RoutingManager from '../RoutingManager.js';
 
 
@@ -9,35 +9,58 @@ function RoutingEditor({companyDetails}) {
   console.log("Editor", companyDetails.addresses, companyDetails.preferences);
 
   let manager = new RoutingManager(companyDetails.addresses, companyDetails.preferences);
+  let routingTable = manager.getRoutingTable();
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>Address</th>
-          <th>Operator</th>
-          <th>Default</th>
-          <th>Enabled</th>
-          <th>Tax preferential</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.entries(manager.addresses).map(function(tuple) {
-          let [address, data] = tuple;
-          return (
-            <tr key={address}>
-              <td>
-                {address}
-              </td>
+    <div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>Operator</th>
+            <th className="text-center">Enabled</th>
+            <th className="text-center">Default</th>
+            <th  className="text-center">Tax preferential</th>
+            <th>Notes*</th>
+          </tr>
+        </thead>
+        <tbody>
+          {routingTable.map(function(entry) {
+            return (
+              <tr key={entry.address}>
+                <td>
+                  {entry.address}
+                </td>
 
-              <td>
-                {data.operatorName}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                <td>
+                  {entry.operatorName}
+                </td>
+
+                <td className="text-center">
+                  <input type="checkbox" />
+                </td>
+
+                <td className="text-center">
+                  <input name="default" type="radio" />
+                </td>
+
+                <td className="text-center">
+                  <input name="tax" type="radio" />
+                </td>
+
+                <td>
+                  <FormControl type="text" />
+                </td>
+
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p className="text-muted">
+        * public notes, available to anybody read in international electronic invoicing registry
+      </p>
+    </div>
   );
 
 }
@@ -84,15 +107,25 @@ class UpdatedDashboard extends React.Component {
   render() {
 
     let logout = () => this.store.logout();
+    let editable = this.store.editCompanyVatId;
 
     return (
       <div>
+        <CompanyDetails store={this.store}/>
         <ButtonToolbar>
+          {editable && <Button className="btn btn-primary" onClick={logout}>
+            Save
+          </Button>
+          }
+          {editable && <Button className="btn btn-primary" onClick={logout}>
+            Create new address
+          </Button>
+          }
+
           <Button className="btn btn-primary" onClick={logout}>
             Log out
           </Button>
         </ButtonToolbar>
-        <CompanyDetails store={this.store}/>
       </div>
     );
   }
