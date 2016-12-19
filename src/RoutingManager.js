@@ -1,21 +1,57 @@
-
+import { observable, extendsObservable, asMap, action, toJS } from 'mobx';
 
 
 // See data.py, create_company_preferences
 class RoutingManager {
 
   constructor(addresses, preferences) {
-    this.addresses = addresses;
+    this.addresses = observable(addresses);
+    this.init(preferences);
+  }
+
+  /* Make sure we have empty default preferences */
+  init(preferences) {
+
+    if(!preferences) {
+      preferences = {};
+    }
+
+    if(!preferences.defaultAddress) {
+      preferences.defaultAddress = null;
+    }
+
+    if(!preferences.taxAddress) {
+      preferences.taxAddress = null;
+    }
+
+    if(!preferences.addresses) {
+      preferences.addresses = asMap({});
+    }
 
     // Normalize incoming empty inputs
-    this.preferences = preferences || {};
+    this.preferences = observable(preferences);
+  }
 
-    if(!this.preferences.addresses) {
-      this.preferences.addresses = {
-        defaultAddress: null,
-        addresses: {}
-      }
+  getAddressPreferences(invoicingAddress) {
+
+    if(!invoicingAddress) {
+      throw new Error();
     }
+
+    let preferences = this.preferences.addresses[invoicingAddress];
+
+    if(!preferences) {
+      // Default address prefs
+      preferences = {
+        receives: null,
+        receivePreferences: [],
+        foobar: "bar",
+      };
+
+      this.preferences.addresses[invoicingAddress] = observable(preferences);
+    }
+
+    return preferences;
   }
 
   canEnable(invoicingAddress) {
@@ -26,22 +62,12 @@ class RoutingManager {
   // Is receiving enabled for an address
   isEnabled(invoicingAddress) {
 
-    let addressPreferences = this.preferences.addresses[invoicingAddress];
+    let addressPreferences = this.getAddressPreferences(invoicingAddress);
 
-    if(!this.addresses[invoicingAddress]) {
-      throw new Error("Trying to check " + invoicingAddress + " has:" + this.addresses)
-    }
-
-    if(!this.addresses[invoicingAddress].receives) {
-      return false;
-    }
-
-    if(!addressPreferences) {
-      return true;
-    }
+    console.log("Address ", invoicingAddress, " preferences ", addressPreferences);
 
     // No user set preference
-    if(addressPreferences.receives === undefined) {
+    if(addressPreferences.receives === null) {
       return true;
     }
 
@@ -49,33 +75,29 @@ class RoutingManager {
     return addressPreferences.receives && true || false;
   }
 
-  setEnabled(invoicingAddress, status) {
-    this.preferences.addresses[invoicingAddresses].receives = status;
-  }
-
-  setTaxPreferential(invoicingAddresses, enabled) {
-    if(enabled) {
-      this.preferences.addresses[invoicingAddresses].receivePreferences = ["tax"];
-    } else {
-      this.preferences.addresses[invoicingAddresses].receivePreferences = [];
-    }
-  }
-
-  getReceivePreferences(invoicingAddress) {
-    let preferences = this.preferences.addresses[invoicingAddress];
-    if(!preferences) {
-      return [];
-    }
-    return preferences.receivePreferences;
+  @action setEnabled(invoicingAddress, status) {
+    let preferences = this.getAddressPreferences(invoicingAddress);
+    console.log("Old preferences ", invoicingAddress, preferences);
+    preferences.receives = status;
+    console.log("New preferences ", preferences);
   }
 
   isDefault(invoicingAddress) {
-    return invoicingAddress = this.preferences.defaultAddress;
+    return invoicingAddress == this.preferences.defaultAddress;
+  }
+
+  @action setDefault(invoicingAddress) {
+    console.log("Old default ", this.preferences.defaultAddress, this.preferences);
+    this.preferences.defaultAddress = invoicingAddress;
+    console.log("New default ", this.preferences.defaultAddress);
   }
 
   isTaxPreferential(invoicingAddress) {
-    let receivePreferences = this.getReceivePreferences(invoicingAddress);
-    return receivePreferences.includes("tax");
+    return this.preferences.taxAddress == invoicingAddress;
+  }
+
+  @action setTaxPreferential(invoicingAddress) {
+    this.preferences.taxAddress = invoicingAddress;
   }
 
   getRoutingTable() {
@@ -99,6 +121,11 @@ class RoutingManager {
         canEnable: canEnable
       };
     });
+  }
+
+  getCompanyPreferencesJSON() {
+    let preferences = toJS(this.preferences);
+    return JSON.stringify(preferences);
   }
 
 }

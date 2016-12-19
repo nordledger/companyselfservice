@@ -1,9 +1,10 @@
 import Web3 from 'web3';
 
 import contracts from "./contracts";
+import {waitTx} from "./utils";
 
 /**
- * Smart contract connection.
+ * Smart contract connection wrapper.
  */
 class ContractWrapper {
 
@@ -24,6 +25,12 @@ class ContractWrapper {
     });
   }
 
+  /**
+   * Query company core data, preferences and every address.
+   *
+   * @param vatId
+   * @returns {{}}
+   */
   queryCompanyResultsSync(vatId) {
 
     var data = {};
@@ -76,6 +83,25 @@ class ContractWrapper {
     } else {
       JSON.parse(data);
     }
+  }
+
+  /**
+   * Perform a transaction to update company preferences.
+   *
+   * @param vatId Company vat ID
+   * @param preferences Stringfied preferences
+   * @param cb callback(err, response)
+   */
+  updateRoutingPreference(vatId, preferences, cb) {
+    //this.contract.updateRoutingPreference.transaction(vatId, preferences, cb);
+    let from = this.web3.eth.coinbase;
+    let txOptions = {from};
+
+    //let payload = this.contract.updateRoutingPreference.toPayload(vatId, preferences, options);
+    //debugger;
+    //web3.eth.sendTransaction(payload, callback);
+    let txhash = this.contract.updateRoutingPreference(vatId, preferences, txOptions);
+    waitTx(this.web3, txhash, cb);
   }
 }
 

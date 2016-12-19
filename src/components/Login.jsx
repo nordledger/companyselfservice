@@ -38,7 +38,7 @@ function Login({ store }) {
 
       <div className="panel-footer">
         <p className="text-muted text-center">
-          In this demo no real login is performed. You can log in as any company. Example: FI24303727.
+          In this demo no real login is performed - you can log in as any company. Example: FI26597538.
         </p>
       </div>
     </div>

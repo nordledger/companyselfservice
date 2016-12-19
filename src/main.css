@@ -18,3 +18,9 @@
 .btn-toolbar {
   margin: 20px 0;
 }
+
+#update-dashboard-spinner {
+    margin-left: 5px;
+    margin-top: 2px;
+    display: inline-block;
+}

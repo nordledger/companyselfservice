@@ -4,6 +4,7 @@ import Store from './Store';
 import App from './components/App';
 
 import Bootstrap from './bootstrap/css/bootstrap.css';
+import FontAwesome from './fontawesome/css/font-awesome.css';
 import style from './main.css';
 
 const root = document.createElement('div');
