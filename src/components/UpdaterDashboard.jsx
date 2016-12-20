@@ -169,7 +169,7 @@ class UpdatedDashboard extends React.Component {
             {savingLabel}
           </Button>
           }
-          {editable && <Button className="btn btn-primary" onClick={logout} disabled={operationInProgress}>
+          {editable && <Button className="btn btn-primary" onClick={logout} disabled="disabled">
             Create new address
           </Button>
           }

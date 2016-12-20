@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import Home from './Home';
 import Search from './Search';
 import Updater from './Updater';
+import About from './About';
 import { Header, Navbar, Alert, Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
 import logo from '../../images/nordledger-logo.png';
 
@@ -31,14 +32,28 @@ function Main({ store }) {
                 <Tab eventKey="home" title="Home">
                   <Home store={store} />
                 </Tab>
+                <Tab eventKey="update" title="Your company">
+                  <Updater store={store} />
+                </Tab>
                 <Tab eventKey="search" title="Companies registry">
                   <Search store={store} />
                 </Tab>
-                <Tab eventKey="update" title="Update your company">
-                  <Updater store={store} />
+                <Tab eventKey="about" title="About">
+                  <About store={store} />
                 </Tab>
               </Tabs>
            </Col>
+        </Row>
+
+        <Row>
+          <Col md={12}>
+            <footer>
+              <hr />
+              <p className="text-center text-muted">
+                Copyright 2016 Nordledger Oü. <a href="#about">More information</a>.
+              </p>
+            </footer>
+          </Col>
         </Row>
       </Grid>
       );

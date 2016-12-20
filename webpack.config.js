@@ -57,7 +57,7 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'companyselfservice',
+      title: 'Electronic Invoice Registry Portal',
     }),
   ],
 };

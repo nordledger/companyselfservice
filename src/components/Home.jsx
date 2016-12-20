@@ -5,15 +5,11 @@ import { Button } from 'react-bootstrap';
 function Home({ store }) {
   return (
     <div>
+
       <h1>Electronic invoice registration demo</h1>
 
-      <p>
-        Choose from options above.
-      </p>
+      <p><a href="#update">Update your company invoicing address data</a> or <a href="#">browse companies registry</a>.</p>
 
-      <p>
-        Contract address <strong>{store.contractAddress}</strong>, version {store.contractVersion}
-      </p>
     </div>
   );
 }

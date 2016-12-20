@@ -3,7 +3,7 @@
 }
 
 .logo {
-  max-width: 60px;
+  max-height: 40px;
 }
 
 .panel-default {
@@ -23,4 +23,8 @@
     margin-left: 5px;
     margin-top: 2px;
     display: inline-block;
+}
+
+footer {
+    padding-top: 60px;
 }
