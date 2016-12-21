@@ -12,6 +12,7 @@ const TARGET = process.env.npm_lifecycle_event;
 const PATHS = {
   src: path.join(__dirname, 'src'),
   dist: path.join(__dirname, 'dist'),
+  build: path.join(__dirname, 'dist'),
   style: path.join(__dirname, 'src/main.css'),
   images: path.join(__dirname, 'images'),
 };
@@ -148,6 +149,11 @@ if (TARGET === 'build') {
       // Output extracted CSS to its own file
       // new ExtractTextPlugin('[name].css'),
       new ExtractTextPlugin('[name].[chunkhash].css'),
+
+      new webpack.ProvidePlugin({
+          jQuery: 'jquery',
+      }),
+
       // Split dependencies into a `vendor` file and provide a manifest
       new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor', 'manifest'],
@@ -162,6 +168,7 @@ if (TARGET === 'build') {
           warnings: false,
         },
       }),
+
     ],
   });
 }

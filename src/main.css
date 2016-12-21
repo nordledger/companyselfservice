@@ -1,3 +1,6 @@
+@import url("./bootstrap/css/bootstrap.css");
+@import url("./fontawesome/css/font-awesome.css");
+
 .navbar {
   min-height: 70px;
 }
@@ -27,4 +30,8 @@
 
 footer {
     padding-top: 60px;
+}
+
+.table-demo {
+    font-size: 75%;
 }

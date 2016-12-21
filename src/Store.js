@@ -8,7 +8,6 @@ class Store {
 
   name = 'companyselfservice';
   description = 'mobx is the best!';
-  contractAddress = "0xf8c93043b63c2c13cd5537819fd5f54291fc86d3";
 
   @observable connected = false;
   @observable contractVersion = null;
@@ -34,9 +33,20 @@ class Store {
 
   @computed get rpcURL() {
     if(window.location.href.includes("demo.nordledger.com")) {
+      // Proxied private geth instance
       return "http://demo.nordledger.com/eth"
     } else {
       return "http://localhost:8545";
+    }
+  }
+
+  @computed get contractAddress() {
+    if(window.location.href.includes("demo.nordledger.com")) {
+      // Deployment on the demo server
+      return "0xb52fc9040759e04b793cbb094dc64ee051377c4c";
+    } else {
+      // Localhost dev env deployment
+      return "0xf8c93043b63c2c13cd5537819fd5f54291fc86d3";
     }
   }
 
@@ -49,11 +59,14 @@ class Store {
   }
 
   @action updateTab(tab) {
+    console.log(tab);
     this.tab = tab;
   }
 
   @action setConnected(err, contractVersion) {
     if(err) {
+      // Ghetto error
+      alert("Could not connect to Ethereum node in " + this.rpcURL);
       this.connected = false;
     } else {
       this.connected = true;

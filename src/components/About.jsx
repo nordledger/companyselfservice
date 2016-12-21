@@ -16,8 +16,9 @@ function About({ store }) {
       </p>
 
       <p>
-        <a href="http://github.com/nordledger/">Source code available on Github</a>
+        <a href="http://github.com/nordledger/">View source code on Github</a>
       </p>
+
     </div>
   );
 }

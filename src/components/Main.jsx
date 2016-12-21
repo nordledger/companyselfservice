@@ -12,6 +12,10 @@ function Main({ store }) {
 
   const chooseTab = store.updateTab.bind(store);
 
+  function about() {
+    store.updateTab("about");
+  }
+
   if(store.connected) {
     return (
       <Grid>
@@ -50,7 +54,7 @@ function Main({ store }) {
             <footer>
               <hr />
               <p className="text-center text-muted">
-                Copyright 2016 Nordledger Oü. <a href="#about">More information</a>.
+                Copyright 2016 Nordledger Oü. <a onClick={about} href="#">More information</a>.
               </p>
             </footer>
           </Col>
