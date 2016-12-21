@@ -52,7 +52,7 @@ const common = {
     ],
   },
   output: {
-    path: PATHS.dist,
+    path: PATHS.dinst,
     filename: '[name].js',
   },
   plugins: [

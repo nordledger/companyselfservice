@@ -33,7 +33,11 @@ class Store {
   }
 
   @computed get rpcURL() {
-    return "http://localhost:8545";
+    if(window.location.href.includes("demo.nordledger.com")) {
+      return "http://demo.nordledger.com/eth"
+    } else {
+      return "http://localhost:8545";
+    }
   }
 
   @computed get contract() {
