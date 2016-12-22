@@ -1,10 +1,9 @@
-// https://github.com/ethereum/web3.js/issues/393
-export function waitTx(web3, txHash, callback) {
-  /*
+/**
   * Watch for a particular transaction hash and call the awaiting function when done;
   * Ether-pudding uses another method, with web3.eth.getTransaction(...) and checking the txHash;
-  * on https://github.com/ConsenSys/ether-pudding/blob/master/index.js
   */
+export function waitTx(web3, txHash, callback) {
+
   var blockCounter = 15;
   // Wait for tx to be finished
   var filter = web3.eth.filter('latest').watch(function(err, blockHash) {
@@ -25,12 +24,24 @@ export function waitTx(web3, txHash, callback) {
       // Tx is finished
       filter.stopWatching();
       filter = null;
-      if (callback)
+
+      if (callback) {
+        let receipt = web3.eth.getTransactionReceipt(txHash);
+        let tx = web3.eth.getTransaction(txHash);
+
+        // Contract threw an exception,
+        // Out of gas caused by invalid jump,
+        // currently the only way how smart contract can signal an error
+        if(receipt.cumulativeGasUsed == tx.gas) {
+          return callback(false);
+        }
+
         return callback(true);
-      else
+      } else {
         return true;
-    // Tx hash not found yet?
+      }
     } else {
+      // Tx hash not found yet?
       // console.log('Waiting tx..', blockCounter);
     }
   });

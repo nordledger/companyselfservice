@@ -98,6 +98,8 @@ class Store {
 
   @action logout() {
     this.loggedIn = false;
+    this.editableCompanyVatId = null;
+    this.editableCompany = null;
   }
 
   @action loadCompanyDetails(vatId) {

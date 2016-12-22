@@ -13,7 +13,7 @@ export default {
                         "type": "string"
                     }
                 ],
-                "name": "createInvoiciexngAddress",
+                "name": "createInvoicingAddress",
                 "outputs": [],
                 "type": "function"
             },

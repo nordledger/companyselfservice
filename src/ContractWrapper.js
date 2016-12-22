@@ -81,7 +81,13 @@ class ContractWrapper {
     if(!data) {
       return {};
     } else {
-      JSON.parse(data);
+      console.log("Parsing ", data);
+      try {
+        return JSON.parse(data);
+      } catch(e) {
+        return {};
+      }
+
     }
   }
 
@@ -95,13 +101,67 @@ class ContractWrapper {
   updateRoutingPreference(vatId, preferences, cb) {
     //this.contract.updateRoutingPreference.transaction(vatId, preferences, cb);
     let from = this.web3.eth.coinbase;
-    let txOptions = {from};
+    let txOptions = {from, gas:1500000};
 
-    //let payload = this.contract.updateRoutingPreference.toPayload(vatId, preferences, options);
-    //debugger;
-    //web3.eth.sendTransaction(payload, callback);
+    if(typeof preferences != "string") {
+      throw new Error();
+    }
+
+    console.log("updateRoutingPreferences", vatId, preferences);
+
     let txhash = this.contract.updateRoutingPreference(vatId, preferences, txOptions);
     waitTx(this.web3, txhash, cb);
+  }
+
+  /**
+   * Create an address operated by an company themselves.
+   *
+   * @param vatId
+   * @param address
+   * @param cb callback(err, response)
+   */
+  createAddress(vatId, address, cb) {
+
+    console.log("Creating address ", vatId, address);
+
+    let web3 = this.web3;
+    let contract = this.contract;
+
+    function setData(success) {
+
+      console.log("Setting address info", success);
+
+      if(!success) {
+        cb(success);
+      }
+
+      // Some example data
+      let tiekeData = {
+          "operatorName": "Self-maintained",
+          "operatorId": "",
+          "permissionToSend": true,
+          "sends": true,
+          "receives": true,
+      };
+
+      tiekeData = JSON.stringify(tiekeData);
+
+      let from = web3.eth.coinbase;
+      let txOptions = {from, gas:500000};
+
+      let contentType = 5; // ContentType.TiekeAddressData
+      let txhash = contract.setInvoicingAddressData(vatId, address, contentType, tiekeData, txOptions);
+      waitTx(web3, txhash, cb);
+    }
+
+    function createAddress() {
+      let from = web3.eth.coinbase;
+      let txOptions = {from, gas:500000};
+      let txhash = contract.createInvoicingAddress(vatId, address, txOptions);
+      waitTx(web3, txhash, setData);
+    }
+
+    createAddress();
   }
 }
 

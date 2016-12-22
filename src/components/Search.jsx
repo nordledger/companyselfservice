@@ -7,7 +7,7 @@ import { observable } from 'mobx';
 function Results({ store }) {
 
   if(!store.resultVatId) {
-    return (<p>Example companies include: IBAN:FI6213763000140986, OVT:3726597538, FI24303727, FI26597538, {store.resultVatId}</p>);
+    return (<p className="text-info">Example addresses include: IBAN:FI6213763000140986, OVT:3726597538. Example VAT ids include: FI24303727, FI26597538.</p>);
   } else {
     var text = JSON.stringify(store.results, null, 2);
     var vatId = store.resultVatId;
@@ -25,11 +25,24 @@ Results = observer(Results);
 
 function Search({ store }) {
 
-  var state = observable({});
+  var state = store.searchState || observable({
+    vatIdError: false,
+  });
+
+  // Quck and dirty instead of class creation
+  store.searchState = state;
 
   function searchByVat(e) {
+
+    if(!state.vatId.startsWith("FI")) {
+      state.vatIdError = true;
+      return;
+    }
+
     store.queryByVatId(state.vatId);
     window.location.hash = "#results";
+
+    state.vatIdError = false;
   }
 
   function searchByInvoiceAddress(e) {
@@ -46,10 +59,12 @@ function Search({ store }) {
     store.resultVatId = null;
   }
 
+  console.log(state.vatIdError);
+
   return (
     <div>
       <h1>Companies registry</h1>
-      <p className="lead">Search electronic invoice address registry</p>
+      <p className="lead">Search the registry to find company details.</p>
 
       <form>
         <div className="form-group">
@@ -66,6 +81,9 @@ function Search({ store }) {
       <hr />
 
       <form>
+
+        {state.vatIdError && <div className="alert alert-danger">Please enter VAT id in an international format with FI prefix. Example: FI1231234.</div>}
+
         <div className="form-group">
           <label htmlFor="query-vat-id">VAT id</label>
           <input type="text" className="form-control" name="vatId" placeholder="FI24303727" value={state.vatId} onChange={onChange} />
