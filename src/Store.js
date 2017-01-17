@@ -2,8 +2,6 @@ import { observable, computed, action, extendObservable } from 'mobx';
 import ContractWrapper from './ContractWrapper';
 
 
-
-
 class Store {
 
   name = 'companyselfservice';
@@ -27,6 +25,8 @@ class Store {
   @observable editCompanyVatId = null;
   editCompanyDetails = {};
 
+  @observable companyLoaded = false;
+
   @computed get oddOrEven() {
     return this.numClicks % 2 === 0 ? 'even' : 'odd';
   }
@@ -46,7 +46,7 @@ class Store {
       return "0xb52fc9040759e04b793cbb094dc64ee051377c4c";
     } else {
       // Localhost dev env deployment
-      return "0xf8c93043b63c2c13cd5537819fd5f54291fc86d3";
+      return "0x82dede57f482c84215be43caa948c8910aba0904";
     }
   }
 
@@ -100,9 +100,12 @@ class Store {
     this.loggedIn = false;
     this.editableCompanyVatId = null;
     this.editableCompany = null;
+    this.companyLoaded = false;
   }
 
   @action loadCompanyDetails(vatId) {
+
+    this.companyLoaded = false;
 
     let companyDetails = this.contractWrapper.queryCompanyResultsSync(vatId);
     this.editCompanyDetails = companyDetails;
@@ -112,6 +115,8 @@ class Store {
 
     this.editCompanyVatId = vatId;
     console.log(vatId);
+
+    this.companyLoaded = true;
   }
 }
 

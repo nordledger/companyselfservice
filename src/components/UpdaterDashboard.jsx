@@ -97,7 +97,7 @@ function CompanyDetails({store, manager}) {
   let company = store.editCompanyDetails;
 
   console.log("Rendering company details", company, store, manager);
-  if (!store.editCompanyVatId) {
+  if (!store.companyLoaded) {
     return (<h1>Loading... <i className="fa fa-spin fa-spinner"/></h1>);
   }
 

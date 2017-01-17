@@ -35,3 +35,9 @@ footer {
 .table-demo {
     font-size: 75%;
 }
+
+.drag-help {
+  color: green;
+  padding: 40px 20px;
+  text-align: center;
+}

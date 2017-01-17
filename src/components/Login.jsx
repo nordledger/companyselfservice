@@ -5,12 +5,14 @@ import { Button } from 'react-bootstrap';
 import logo from '../../images/katso-logo.jpg';
 
 
-function Login({ store }) {
+function Login({ store, message }) {
 
   let state = observable({});
 
   let login = () => store.login(state.vatId);
   let onChange = (event) => state[event.target.name] = event.target.value;
+
+  console.log("Login message is", message);
 
   return (
     <div className="panel panel-default">
@@ -23,7 +25,7 @@ function Login({ store }) {
       <form className="panel-body">
 
         <p>
-          Log in to update your company electronic invoicing address details.
+          {message || "Log in to update your company electronic invoicing address details."}
         </p>
 
         <div className="form-group">
@@ -47,6 +49,7 @@ function Login({ store }) {
 
 Login.propTypes = {
   store: React.PropTypes.object,
+  message: React.PropTypes.string,
 };
 
 export default observer(Login);

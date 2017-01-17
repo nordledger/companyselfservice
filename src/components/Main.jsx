@@ -5,6 +5,7 @@ import Home from './Home';
 import Search from './Search';
 import Updater from './Updater';
 import About from './About';
+import Invoicing from './Invoicing';
 import { Header, Navbar, Alert, Tabs, Tab, Grid, Row, Col } from 'react-bootstrap';
 import logo from '../../images/nordledger-logo.png';
 
@@ -36,7 +37,12 @@ function Main({ store }) {
                 <Tab eventKey="home" title="Home">
                   <Home store={store} />
                 </Tab>
-                <Tab eventKey="update" title="Your company">
+
+                <Tab eventKey="invoicing" title="Send and receive invoices">
+                  <Invoicing store={store} />
+                </Tab>
+
+                <Tab eventKey="update" title="Your company details">
                   <Updater store={store} />
                 </Tab>
                 <Tab eventKey="search" title="Companies registry">

@@ -3,6 +3,15 @@ import { observer } from 'mobx-react';
 import { Button } from 'react-bootstrap';
 
 function About({ store }) {
+
+  let coinbase;
+
+  try {
+    coinbase = store.contractWrapper.web3.eth.coinbase;
+  } catch(e) {
+    coinbase = null;
+  }
+
   return (
     <div>
       <h1>Electronic invoice registration demo</h1>
@@ -12,7 +21,7 @@ function About({ store }) {
       </p>
 
       <p>
-        Electronic invoicing regisrty contract address is <strong>{store.contractAddress}</strong>, version {store.contractVersion}
+        Electronic invoicing regisrty contract address is <strong>{store.contractAddress}</strong>, version <strong>{store.contractVersion}</strong>, coinbase account <strong>{coinbase}</strong>
       </p>
 
       <p>
