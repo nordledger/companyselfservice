@@ -13,6 +13,8 @@ function Main({ store }) {
 
   const chooseTab = store.updateTab.bind(store);
 
+  const hidden = window.location.href.includes("hidden");
+
   function about() {
     store.updateTab("about");
   }
@@ -38,9 +40,10 @@ function Main({ store }) {
                   <Home store={store} />
                 </Tab>
 
+                {hidden &&
                 <Tab eventKey="invoicing" title="Send and receive invoices">
                   <Invoicing store={store} />
-                </Tab>
+                </Tab>}
 
                 <Tab eventKey="update" title="Your company details">
                   <Updater store={store} />
