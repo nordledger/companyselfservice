@@ -135,6 +135,7 @@ class UpdatedDashboard extends React.Component {
       updated: false,
       newAddress: null,
       manager: null,
+      creating: false,
     });
   }
 
@@ -212,9 +213,9 @@ class UpdatedDashboard extends React.Component {
           alert("Creation failed");
         }
 
-        state.creating = false;
         store.loadCompanyDetails(store.loggedInVatId);
         buildRoutingTable();
+        state.creating = false;
       }
 
       cb = action(cb);

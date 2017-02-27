@@ -151,7 +151,7 @@ class ContractWrapper {
 
       let contentType = 5; // ContentType.TiekeAddressData
       let txhash = contract.setInvoicingAddressData(vatId, address, contentType, tiekeData, txOptions);
-      waitTx(web3, txhash, cb);
+      cb(true);
     }
 
     function createAddress() {

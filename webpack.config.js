@@ -136,7 +136,7 @@ if (TARGET === 'build') {
           loader: 'babel',
           query: {
             cacheDirectory: true,
-            presets: ['react', 'stage-1', 'es2015'],
+            presets: ['es2015', 'react', 'stage-1'],
             plugins: ['transform-decorators-legacy', 'transform-object-assign', 'array-includes', 'transform-runtime', 'transform-es2015-block-scoping'],
           },
           include: PATHS.src,

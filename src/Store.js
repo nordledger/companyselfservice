@@ -41,9 +41,9 @@ class Store {
   }
 
   @computed get contractAddress() {
-    if(window.location.href.includes("demo.nordledger.com")) {
+    if(window.location.href.includes("nordledger.com")) {
       // Deployment on the demo server
-      return "0xb52fc9040759e04b793cbb094dc64ee051377c4c";
+      return "0x4a018bfff8337b4fda41415b95f8411f70360506";
     } else {
       // Localhost dev env deployment
       return "0x82dede57f482c84215be43caa948c8910aba0904";
